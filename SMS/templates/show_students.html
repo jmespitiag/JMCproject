@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>Lista de Cursos</title>
+    <title>Estudiantes del Curso</title>
     <!-- Estilos de Bootstrap -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Estilos personalizados -->
@@ -16,27 +16,19 @@
         }
         .container {
             margin-top: 50px;
-            text-align: center; /* Centrar contenido */
         }
-        .logo {
-            width: 200px;
-            margin-bottom: 20px;
-            display: block; /* Convertir en bloque para alinear horizontalmente */
-            margin-left: auto; /* Centrar horizontalmente */
-            margin-right: auto; /* Centrar horizontalmente */
-        }
-        .curso {
+        .estudiante {
             background-color: #fff;
             border: 1px solid #ccc;
             border-radius: 5px;
             padding: 20px;
             margin-bottom: 20px;
         }
-        .curso h2 {
+        .estudiante h2 {
             margin-top: 0;
         }
-        .btn-enviar-reporte {
-            background-color: #e74c3c;
+        .btn-ir-reporte {
+            background-color: #f39c12;
             color: #fff;
             border: none;
             border-radius: 5px;
@@ -44,29 +36,24 @@
             font-size: 16px;
             cursor: pointer;
         }
-        .btn-enviar-reporte:hover {
+        .btn-ir-reporte:hover {
             opacity: 0.8;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Logo -->
-        <img src="https://www.juanmariacespedes.edu.co/images/logofull-2.png" alt="Logo de la empresa" class="logo">
-
-        <h1>Lista de Cursos</h1>
-        {% if courses %}
-            {% for course in courses %}
-                <div class="curso">
-                    <h2>{{ course.subject }}</h2>
-                    <p>Grupo: {{ course.competencies }}</p>
-                    <p>Fecha inicial: {{ course.initial_date }}</p>
-                    <p>Fecha final: {{ course.final_date }}</p>
-                    <button class="btn btn-enviar-reporte">Generar reportes</button>
+        <h1>Estudiantes del Curso</h1>
+        {% if students %}
+            {% for student in students %}
+                <div class="estudiante">
+                    <h2>{{ student.nombre }}</h2>
+                    <p>Grupo: {{ student.group }}</p>
+                    <a href="{% url 'ruta_reportes' %}" class="btn btn-ir-reporte">Ir a Reportes</a>
                 </div>
             {% endfor %}
         {% else %}
-            <p>No hay cursos disponibles.</p>
+            <p>No hay estudiantes en este curso.</p>
         {% endif %}
     </div>
 

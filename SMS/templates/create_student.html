@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear Curso</title>
+    <title>Crear Estudiante</title>
     <!-- Estilos de Bootstrap -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Estilos personalizados -->
@@ -35,7 +35,7 @@
             font-weight: bold;
         }
         .btn-guardar {
-            background-color: #f39c12;
+            background-color: #e74c3c; /* Rojo */
             color: #fff;
             border: none;
             border-radius: 5px;
@@ -43,16 +43,8 @@
             font-size: 18px;
             cursor: pointer;
         }
-        .btn-crear-curso {
-            background-color: #e74c3c;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 20px;
-            font-size: 18px;
-            cursor: pointer;
-        }
-        .btn-guardar:hover, .btn-crear-curso:hover {
+        .btn-guardar:hover {
+            background-color: #f39c12; /* Amarillo */
             opacity: 0.8;
         }
     </style>
@@ -62,9 +54,9 @@
         <!-- Logo -->
         <img src="https://www.juanmariacespedes.edu.co/images/logofull-2.png" alt="Logo de la empresa" class="logo">
 
-        <!-- Formulario de Crear Curso -->
+        <!-- Formulario de Crear Estudiante -->
         <div class="formulario">
-            <h2>Crear Curso</h2>
+            <h2>Crear Estudiante</h2>
             {% if messages %}
                 {% for message in messages %}
                     <div class="alert alert-{{ message.tags }}">{{ message }}</div>
@@ -73,30 +65,22 @@
             <form method="POST">
                 {% csrf_token %}
                 <div class="form-group">
-                    <label for="students">Estudiantes:</label>
-                    <select id="students" name="students[]" class="form-control" multiple>
-                        {% for student in students %}
-                            <option value="{{ student.id }}">{{ student.nombre }}</option>
-                        {% endfor %}
-                    </select>
+                    <label for="name">Nombre:</label>
+                    <input type="text" id="name" name="name" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label for="materia">Materia:</label>
-                    <input type="text" id="materia" name="materia" class="form-control" required>
+                    <label for="grupo">Grupo:</label>
+                    <input type="text" id="group" name="group" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label for="competencias">Competencias a Alcanzar:</label>
-                    <textarea id="competencias" name="competencias" class="form-control" rows="3" required></textarea>
+                    <label for="attendant_name">Nombre del Acudiente:</label>
+                    <input type="text" id="attendant_name" name="attendant_name" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label for="fecha_inicial">Fecha Inicial:</label>
-                    <input type="date" id="fecha_inicial" name="fecha_inicial" class="form-control" required>
+                    <label for="attendant_phone">Teléfono del acudiente:</label>
+                    <input type="text" id="attendant_phone" name="attendant_phone" class="form-control" required>
                 </div>
-                <div class="form-group">
-                    <label for="fecha_final">Fecha Final:</label>
-                    <input type="date" id="fecha_final" name="fecha_final" class="form-control" required>
-                </div>
-                <button type="submit" class="btn btn-guardar">Guardar Curso</button>
+                <button type="submit" class="btn btn-guardar">Guardar Estudiante</button>
             </form>
         </div>
     </div>
