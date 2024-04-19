@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Course, Student
 from django.contrib import messages
 from sms import send_sms
+from datetime import date
 
 def home(request):
     return render(request, 'home.html')
@@ -66,11 +67,13 @@ def show_students(request, course_id):
 
 def generate_report(request, course_id, student_id):
     student = Student.objects.get(id=student_id)
-    Course.objects.get(id=course_id)
+    course = Course.objects.get(id=course_id)
+    date_today = date.today()
+    
 
     if request.method == 'POST':
         attended = request.POST.get('attended')
         observations = request.POST.get('observations')
-        msg = ""
+        msg = f"[JUAN MARÍA CÉSPEDES]\n\n!Hola student.attendant_name, le informamos que el/la estudiante student.name tuvo el día\n\nnde hoy {date_today},una sesuión de un curso remedial. Aquí hay aluna información importante:\n\nAsistió: attende\nMateria del curso: course.subject\n\nObservaciones del docente:observations\n\n¡Gracias por su atención! Para más información recuerda asisitir a los miercoles en familia"     
         status = send_sms()
     return render(request, 'generate_report.html')
