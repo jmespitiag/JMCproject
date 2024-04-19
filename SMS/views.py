@@ -74,6 +74,6 @@ def generate_report(request, course_id, student_id):
     if request.method == 'POST':
         attended = request.POST.get('attended')
         observations = request.POST.get('observations')
-        msg = f"[JUAN MARÍA CÉSPEDES]\n\n!Hola student.attendant_name, le informamos que el/la estudiante student.name tuvo el día\n\nnde hoy {date_today},una sesuión de un curso remedial. Aquí hay aluna información importante:\n\nAsistió: attende\nMateria del curso: course.subject\n\nObservaciones del docente:observations\n\n¡Gracias por su atención! Para más información recuerda asisitir a los miercoles en familia"     
+        msg = f"[JUAN MARÍA CÉSPEDES]\n\n!Hola {student.attendant_name}, le informamos que el/la estudiante {student.name} tuvo el día\n\nnde hoy {date_today},una sesuión de un curso remedial. Aquí hay aluna información importante:\n\nAsistió: }{attended}\nMateria del curso: {course.subject}\n\nObservaciones del docente:{observations}\n\n¡Gracias por su atención! Para más información recuerda asisitir a los miercoles en familia"     
         status = send_sms()
     return render(request, 'generate_report.html')
