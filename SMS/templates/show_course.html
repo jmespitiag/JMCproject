@@ -59,10 +59,10 @@
             {% for course in courses %}
                 <div class="curso">
                     <h2>{{ course.subject }}</h2>
-                    <p>Grupo: {{ course.competencies }}</p>
+                    <p>Competencias: {{ course.competencies }}</p>
                     <p>Fecha inicial: {{ course.initial_date }}</p>
                     <p>Fecha final: {{ course.final_date }}</p>
-                    <button class="btn btn-enviar-reporte">Generar reportes</button>
+                    <a href="{% url 'show_students' course_id=course.id %}" class="btn btn-enviar-reporte">Mostrar estudiantes</a>
                 </div>
             {% endfor %}
         {% else %}

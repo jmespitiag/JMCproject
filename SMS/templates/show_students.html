@@ -47,9 +47,11 @@
         {% if students %}
             {% for student in students %}
                 <div class="estudiante">
-                    <h2>{{ student.nombre }}</h2>
+                    <h2>{{ student.name }}</h2>
                     <p>Grupo: {{ student.group }}</p>
-                    <a href="{% url 'ruta_reportes' %}" class="btn btn-ir-reporte">Ir a Reportes</a>
+                    <p>Nombre del acudiente: {{ student.attendant_name }}</p>
+                    <p>Teléfono del acudiente: {{ student.attendant_phone }}</p>
+                    <a href="{% url 'generate_report' course_id=course.id student_id=student.id %}" class="btn btn-ir-reporte">Generar reporte</a>
                 </div>
             {% endfor %}
         {% else %}

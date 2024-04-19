@@ -76,25 +76,25 @@
                     <label for="students">Estudiantes:</label>
                     <select id="students" name="students[]" class="form-control" multiple>
                         {% for student in students %}
-                            <option value="{{ student.id }}">{{ student.nombre }}</option>
+                            <option value="{{ student.id }}">{{ student.name }}</option>
                         {% endfor %}
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="materia">Materia:</label>
-                    <input type="text" id="materia" name="materia" class="form-control" required>
+                    <label for="subject">Materia:</label>
+                    <input type="text" id="subject" name="subject" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label for="competencias">Competencias a Alcanzar:</label>
-                    <textarea id="competencias" name="competencias" class="form-control" rows="3" required></textarea>
+                    <label for="competencies">Competencias a Alcanzar:</label>
+                    <textarea id="competencies" name="competencies" class="form-control" rows="3" required></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="fecha_inicial">Fecha Inicial:</label>
-                    <input type="date" id="fecha_inicial" name="fecha_inicial" class="form-control" required>
+                    <label for="initial_date">Fecha Inicial:</label>
+                    <input type="date" id="initial_date" name="initial_date" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label for="fecha_final">Fecha Final:</label>
-                    <input type="date" id="fecha_final" name="fecha_final" class="form-control" required>
+                    <label for="final_date">Fecha Final:</label>
+                    <input type="date" id="final_date" name="final_date" class="form-control" required>
                 </div>
                 <button type="submit" class="btn btn-guardar">Guardar Curso</button>
             </form>
