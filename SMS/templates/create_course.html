@@ -74,11 +74,10 @@
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="students">Estudiantes:</label>
-                    <select id="students" name="students[]" class="form-control" multiple>
-                        {% for student in students %}
-                            <option value="{{ student.id }}">{{ student.name }}</option>
-                        {% endfor %}
-                    </select>
+                    {% for student in students %}
+                        <input type="checkbox" name="students" value="{{ student.id }}">
+                        <label for="{{ student.id }}">{{ student.name }}</label>
+                    {% endfor %}
                 </div>
                 <div class="form-group">
                     <label for="subject">Materia:</label>

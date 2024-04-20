@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Course, Student
 from django.contrib import messages
-from sms import send_sms
+from .sms import send_sms
 from datetime import date
 
 def home(request):
@@ -16,7 +16,8 @@ def create_course(request):
         competencies = request.POST.get('competencies')
         initial_date = request.POST.get('initial_date')
         final_date = request.POST.get('final_date')
-        students_ids = request.POST.getlist('students')
+        students_id = request.POST.getlist('students')
+        print(students_id)
 
         new_course = Course.objects.create(
             subject=subject,
@@ -25,12 +26,17 @@ def create_course(request):
             final_date=final_date
         )
 
-        new_course.students.set(students_ids)
+        for student_id in students_id:
+            x = Student.objects.get(id=student_id)
+            print(x)
+            new_course.students.add(x)
 
         new_course.save()
+        updated_course = Course.objects.get(pk=new_course.pk)
+        print(updated_course.students.all())
 
         messages.success(request, 'Curso creado satisfactoriamente.')
-        return redirect('create_course')
+        return redirect('home')
     
     return render(request, 'create_course.html', {'students': students})
 
@@ -56,13 +62,16 @@ def create_student(request):
         new_student.save()
 
         messages.success(request, 'Estudiante creado satisfactoriamente.')
-        return redirect('create_student')
+        return redirect('home')
     
     return render(request, 'create_student.html')
 
 def show_students(request, course_id):
     course = Course.objects.get(id=course_id)
-    students = Student.objects.all()
+    students = course.students.all()
+    print(course)
+    print("aa")
+    print(course.students.exists())
     return render(request, 'show_students.html', {'students': students, 'course': course})
 
 def generate_report(request, course_id, student_id):
@@ -74,6 +83,8 @@ def generate_report(request, course_id, student_id):
     if request.method == 'POST':
         attended = request.POST.get('attended')
         observations = request.POST.get('observations')
-        msg = f"[JUAN MARÍA CÉSPEDES]\n\n!Hola {student.attendant_name}, le informamos que el/la estudiante {student.name} tuvo el día\n\nnde hoy {date_today},una sesuión de un curso remedial. Aquí hay aluna información importante:\n\nAsistió: }{attended}\nMateria del curso: {course.subject}\n\nObservaciones del docente:{observations}\n\n¡Gracias por su atención! Para más información recuerda asisitir a los miercoles en familia"     
-        status = send_sms()
+        msg = f"JUAN MARÍA CÉSPEDES\n\n!Hola {student.attendant_name}!, le informamos que el/la estudiante {student.name} tuvo el día\nde hoy {date_today},una sesión de un curso remedial. Aquí hay alguna información importante:\n\nAsistió: {attended}\nMateria del curso: {course.subject}\n\nObservaciones del docente:{observations}\n\n ¡Gracias por su atención! Para más información recuerda asisitir a los miércoles en familia"     
+        status = send_sms(student.attendant_phone, msg)
+        messages.success(request, status)
+        return redirect('generate_report', course_id=course_id, student_id=student_id)
     return render(request, 'generate_report.html')

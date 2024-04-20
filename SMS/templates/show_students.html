@@ -45,7 +45,7 @@
     <div class="container">
         <h1>Estudiantes del Curso</h1>
         {% if students %}
-            {% for student in students %}
+            {% for student in students.all %}
                 <div class="estudiante">
                     <h2>{{ student.name }}</h2>
                     <p>Grupo: {{ student.group }}</p>
