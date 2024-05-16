@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>Estudiantes del Curso</title>
+    <title>Lista de Cursos</title>
     <!-- Estilos de Bootstrap -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Estilos personalizados -->
@@ -16,19 +16,27 @@
         }
         .container {
             margin-top: 50px;
+            text-align: center; /* Centrar contenido */
         }
-        .estudiante {
+        .logo {
+            width: 200px;
+            margin-bottom: 20px;
+            display: block; /* Convertir en bloque para alinear horizontalmente */
+            margin-left: auto; /* Centrar horizontalmente */
+            margin-right: auto; /* Centrar horizontalmente */
+        }
+        .curso {
             background-color: #fff;
             border: 1px solid #ccc;
             border-radius: 5px;
             padding: 20px;
             margin-bottom: 20px;
         }
-        .estudiante h2 {
+        .curso h2 {
             margin-top: 0;
         }
-        .btn-ir-reporte {
-            background-color: #f39c12;
+        .btn-enviar-reporte {
+            background-color: #e74c3c;
             color: #fff;
             border: none;
             border-radius: 5px;
@@ -36,25 +44,30 @@
             font-size: 16px;
             cursor: pointer;
         }
-        .btn-ir-reporte:hover {
+        .btn-enviar-reporte:hover {
             opacity: 0.8;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Estudiantes del Curso</h1>
-        {% if students %}
-            {% for student in students.all %}
-                <div class="estudiante">
-                    <h2>{{ student.name }}</h2>
-                    <p>Grupo: {{ student.group }}</p>
-                    <p>Nombre del acudiente: {{ student.attendant_name }}</p>
-                    <p>Teléfono del acudiente: {{ student.attendant_phone }}</p>
+        <!-- Logo -->
+        <img src="https://www.juanmariacespedes.edu.co/images/logofull-2.png" alt="Logo de la empresa" class="logo">
+
+        <h1>Lista de Cursos</h1>
+        {% if courses %}
+            {% for course in courses %}
+                <div class="curso">
+                    <h2>{{ course.subject }}</h2>
+                    <p>Competencias: {{ course.competencies }}</p>
+                    <p>Fecha inicial: {{ course.initial_date }}</p>
+                    <p>Fecha final: {{ course.final_date }}</p>
+                    <p>Profesor: {{ course.teacher.name }}</p>
+                    <a href="{% url 'show_students' course_id=course.id %}" class="btn btn-enviar-reporte">Mostrar estudiantes</a>
                 </div>
             {% endfor %}
         {% else %}
-            <p>No hay estudiantes en este curso.</p>
+            <p>No hay cursos disponibles.</p>
         {% endif %}
     </div>
 

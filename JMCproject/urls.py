@@ -22,12 +22,19 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('', SMS.home, name='home'),
+    path('login/', SMS.login.as_view(), name='login'),
 
-    path('create_course', SMS.create_course, name='create_course'),
-    path('create_student', SMS.create_student, name='create_student'),
+    path('admin_home/', SMS.admin_home, name='admin_home'),
+    path('user_home/', SMS.user_home, name='user_home'),
+
+    path('create_course/', SMS.create_course, name='create_course'),
+    path('create_student/', SMS.create_student, name='create_student'),
     
     path('show_students/<int:course_id>', SMS.show_students, name='show_students'),
 
-    path('show_course', SMS.show_course, name='show_course'),
+    path('create_teacher/', SMS.create_teacher, name='create_teacher'),
+
+    path('show_all_courses/', SMS.show_all_courses, name='show_all_courses'),
+    path('show_my_courses/', SMS.show_my_courses, name='show_my_courses'),
     path('generate_report/<int:course_id>/<int:student_id>', SMS.generate_report, name='generate_report'),
 ]
