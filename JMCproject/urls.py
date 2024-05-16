@@ -20,10 +20,14 @@ from SMS import views as SMS
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
     path('', SMS.home, name='home'),
+
     path('create_course', SMS.create_course, name='create_course'),
     path('create_student', SMS.create_student, name='create_student'),
+    
     path('show_students/<int:course_id>', SMS.show_students, name='show_students'),
+
     path('show_course', SMS.show_course, name='show_course'),
     path('generate_report/<int:course_id>/<int:student_id>', SMS.generate_report, name='generate_report'),
 ]

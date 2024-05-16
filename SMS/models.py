@@ -7,6 +7,7 @@ class Course(models.Model):
     initial_date = models.DateField()
     final_date = models.DateField()
     teacher = models.ForeignKey('Teacher', on_delete=models.CASCADE)
+    students = models.ManyToManyField('Student')
 
 class Student(models.Model):
     id = models.AutoField(primary_key=True)
@@ -14,11 +15,6 @@ class Student(models.Model):
     attendant_name = models.CharField(max_length=25)
     attendant_phone = models.CharField(max_length=25)
     group = models.CharField(max_length=100)
-
-class Enrollment(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    enrollment_date = models.DateField(auto_now_add=True)
 
 
 class Teacher(models.Model):
@@ -29,7 +25,7 @@ class Teacher(models.Model):
 
 class Session(models.Model):
     id = models.AutoField(primary_key=True)
-    students = models.ManyToManyField(Student, related_name='classes')
+    students = models.ManyToManyField(Student)
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     date = models.DateField()
