@@ -1,5 +1,13 @@
 from django.db import models
 
+class Course(models.Model):
+    id = models.AutoField(primary_key=True)
+    subject = models.CharField(max_length=100)
+    competencies = models.CharField(max_length=100)
+    initial_date = models.DateField()
+    final_date = models.DateField()
+    teacher = models.ForeignKey('Teacher', on_delete=models.CASCADE)
+
 class Student(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=25)
@@ -7,10 +15,13 @@ class Student(models.Model):
     attendant_phone = models.CharField(max_length=25)
     group = models.CharField(max_length=100)
 
-class Course(models.Model):
+class Enrollment(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    enrollment_date = models.DateField(auto_now_add=True)
+
+class Teacher(models.Model):
     id = models.AutoField(primary_key=True)
-    subject = models.CharField(max_length=100)
-    competencies = models.CharField(max_length=100)
-    students = models.ManyToManyField(Student)
-    initial_date = models.DateField()
-    final_date = models.DateField()
+    name = models.CharField(max_length=25)
+    admin = models.BooleanField(default=False)
+    courses = models.ManyToManyField(Course, related_name='classes')
