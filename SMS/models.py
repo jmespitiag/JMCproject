@@ -20,8 +20,16 @@ class Enrollment(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     enrollment_date = models.DateField(auto_now_add=True)
 
+
 class Teacher(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=25)
     admin = models.BooleanField(default=False)
     courses = models.ManyToManyField(Course, related_name='classes')
+
+class Session(models.Model):
+    id = models.AutoField(primary_key=True)
+    students = models.ManyToManyField(Student, related_name='classes')
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    date = models.DateField()
