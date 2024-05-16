@@ -18,16 +18,19 @@ from django.contrib import admin
 from django.urls import path
 from SMS import views as SMS
 
-urlpatterns = [
+urlpatterns = [ 
     path('admin/', admin.site.urls),
 
-    path('', SMS.home, name='home'),
+    path('', SMS.home, name='home'), 
 
-    path('create_course', SMS.create_course, name='create_course'),
-    path('create_student', SMS.create_student, name='create_student'),
+    path('course/create', SMS.create_course, name='create_course'),
+    path('course/show', SMS.show_course, name='show_course'),
+
+    path('student/create', SMS.create_student, name='create_student'),
     
-    path('show_students/<int:course_id>', SMS.show_students, name='show_students'),
+    path('student/show/<int:course_id>', SMS.show_students, name='show_students'),
 
-    path('show_course', SMS.show_course, name='show_course'),
-    path('generate_report/<int:course_id>/<int:student_id>', SMS.generate_report, name='generate_report'),
+    path('course/session/<id:session_id>/', SMS.show_session, name='show_session'),
+    path('course/session/create', SMS.create_session, name='create_session'),
+    path('course/session/<id:session_id>/<id:student_id>', SMS.generate_report, name='generate_report'),    
 ]

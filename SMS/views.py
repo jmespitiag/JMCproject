@@ -88,3 +88,12 @@ def generate_report(request, course_id, student_id):
         messages.success(request, status)
         return redirect('generate_report', course_id=course_id, student_id=student_id)
     return render(request, 'generate_report.html')
+
+def show_session(request, session_id):
+    pass
+
+def create_session(request):
+    pass
+
+def generate_report(request,session_id, student_id):
+    pass
