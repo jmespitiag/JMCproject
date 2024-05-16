@@ -36,7 +36,7 @@ def create_course(request):
         print(updated_course.students.all())
 
         messages.success(request, 'Curso creado satisfactoriamente.')
-        return redirect('home')
+        return redirect('create_course')
     
     return render(request, 'create_course.html', {'students': students})
 
@@ -62,7 +62,7 @@ def create_student(request):
         new_student.save()
 
         messages.success(request, 'Estudiante creado satisfactoriamente.')
-        return redirect('home')
+        return redirect('create_student')
     
     return render(request, 'create_student.html')
 
