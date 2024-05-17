@@ -131,7 +131,12 @@ def create_teacher(request):
 def show_session(request, session_id):
     session = Session.objects.get(id=session_id)
     students = session.students.all()
-    reported_students  = request.session['reported_students']
+    reported_students = request.session.get('reported_students', None)
+    
+    if reported_students is None:
+        reported_students = []
+        request.session['reported_students'] = reported_students
+        
     students_to_report = []
     for student in students:
         if student.id not in reported_students:
