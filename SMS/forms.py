@@ -22,3 +22,6 @@ class TeacherRegistrationForm(forms.ModelForm):
 
 class TeacherLoginForm(AuthenticationForm):
     username = forms.EmailField(label='Correo Electrónico', max_length=254)
+
+
+    

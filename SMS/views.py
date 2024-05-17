@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Course, Student, Teacher
+from .models import Course, Student, Teacher, Session
 from django.contrib import messages
 from .sms import send_sms
 from django.contrib.auth.decorators import login_required
@@ -10,8 +10,7 @@ from django.urls import reverse_lazy
 from .forms import TeacherLoginForm
 from .decorators import admin_required
 
-@login_required
-@admin_required
+
 def admin_home(request):
     return render(request, 'admin_home.html')
 
@@ -74,7 +73,7 @@ def show_all_courses(request):
 @login_required
 def show_my_courses(request):
     courses = Course.objects.filter(teacher=request.user)
-    return render(request, 'show_all_courses.html', {'courses': courses})
+    return render(request, 'show_my_courses.html', {'courses': courses})
 
 @login_required
 @admin_required
@@ -109,21 +108,7 @@ def show_students(request, course_id):
     print(course.students.exists())
     return render(request, 'show_students.html', {'students': students, 'course': course})
 
-@login_required
-def generate_report(request, course_id, student_id):
-    student = Student.objects.get(id=student_id)
-    course = Course.objects.get(id=course_id)
-    date_today = date.today()
-    
 
-    if request.method == 'POST':
-        attended = request.POST.get('attended')
-        observations = request.POST.get('observations')
-        msg = f"JUAN MARÍA CÉSPEDES\n\n!Hola {student.attendant_name}!, le informamos que el/la estudiante {student.name} tuvo el día\nde hoy {date_today},una sesión de un curso remedial. Aquí hay alguna información importante:\n\nAsistió: {attended}\nMateria del curso: {course.subject}\n\nObservaciones del docente:{observations}\n\n ¡Gracias por su atención! Para más información recuerda asisitir a los miércoles en familia"     
-        status = send_sms(student.attendant_phone, msg)
-        messages.success(request, status)
-        return redirect('generate_report', course_id=course_id, student_id=student_id)
-    return render(request, 'generate_report.html')
 
 
 @login_required
@@ -135,13 +120,85 @@ def create_teacher(request):
             teacher = form.save(commit=False)
             teacher.set_password(form.cleaned_data['password'])
             teacher.save()
-            messages.success(request, 'Teacher created successfully.')
+
             return redirect('home')
     else:
         form = TeacherRegistrationForm()
     
     return render(request, 'create_teacher.html', {'form': form})
 
+@login_required
+def show_session(request, session_id):
+    session = Session.objects.get(id=session_id)
+    students = session.students.all()
+    reported_students  = request.session['reported_students']
+    students_to_report = []
+    for student in students:
+        if student.id not in reported_students:
+            students_to_report.append(student)
+
+
+    print(students_to_report)
+
+    return render(request, 'show_session.html', {'students': students_to_report,'session_id': session.id})
+
+@login_required
+def create_session(request):
+    if request.method == 'POST':
+
+        course_id = request.POST.get('course')
+        course = Course.objects.get(id=course_id)
+        students = course.students.all()
+        teacher = request.user
+
+        new_session = Session.objects.create(
+
+            course = course,
+            teacher = teacher
+
+        )
+
+        new_session.students.set(students)
+        new_session.save()
+        updated_session= Session.objects.get(pk=new_session.id)
+        print(updated_session.students.all())
+
+        return redirect('show_session',session_id=updated_session.id)
+    
+
+
+    else:
+        
+        courses = Course.objects.all
+    return render(request, 'create_session.html', {'courses':courses})
+
+@login_required
+def generate_report(request, session_id, student_id):
+    student = Student.objects.get(id=student_id)
+    session = Session.objects.get(id=session_id)
+    course = session.course
+
+    
+    if request.method == 'POST':
+        attended = request.POST.get('attended')
+        observations = request.POST.get('observations')
+        msg = f"JUAN MARÍA CÉSPEDES\n\n!Hola {student.attendant_name}!, le informamos que el/la estudiante {student.name} tuvo el día\nde hoy {session.date},una sesión de un curso remedial. Aquí hay alguna información importante:\n\nAsistió: {attended}\nMateria del curso: {course.subject}\n\nObservaciones del docente:{observations}\n\n ¡Gracias por su atención! Para más información recuerda asisitir a los miércoles en familia"     
+        status = send_sms(student.attendant_phone, msg)
+        messages.success(request, status)
+
+        reported_students = request.session.get('reported_students', [])
+        reported_students.append(student.id)
+        request.session['reported_students'] = reported_students
+        
+        messages.success(request, f'Alumno {student.name} reportado.')
+        return redirect('show_session', session_id=session_id)
+
+    else:
+        return render(request, 'generate_report.html',{'student':student})
+
+
 class login(LoginView):
     template_name = 'login.html'
     authentication_form = TeacherLoginForm
+
+

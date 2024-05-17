@@ -1,5 +1,13 @@
-<!DOCTYPE html>
-<html lang="es">
+{% extends 'base_user.html' %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+
+
+{% block content %}
+
 
 <head>
   <meta charset="UTF-8">
@@ -88,7 +96,7 @@
 
     <!-- Botones -->
     <div class="boton">
-      <a href="#" class="btn btn-crear-estudiante">Crear Sesión</a>
+      <a href="{% url 'create_session' %}" class="btn btn-crear-estudiante">Crear Sesión</a>
       <a href="{% url 'show_my_courses' %}" class="btn btn-ver-cursos">Ver Mis Cursos</a>
     </div>
   </div>
@@ -110,5 +118,4 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
-
-</html>
+{% endblock %}

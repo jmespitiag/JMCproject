@@ -1,0 +1,84 @@
+{% extends 'base_user.html' %}
+
+{% block title %}
+    Ver estudiantes
+{% endblock %}
+
+
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Estudiantes del Curso</title>
+    <!-- Estilos de Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Estilos personalizados -->
+    <style>
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .estudiante {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 20px;
+            position: relative;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px; /* Establece el ancho máximo */
+            margin-left: auto; /* Centra horizontalmente */
+            margin-right: auto; /* Centra horizontalmente */
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .btn-ir-reporte {
+            background-color: #f00;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 15px;
+            font-size: 14px;
+            cursor: pointer;
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            transition: opacity 0.3s ease;
+        }
+        .btn-ir-reporte:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Estudiantes del Curso</h1>
+        {% if students %}
+            {% for student in students %}
+                <div class="estudiante">
+                    <h2>{{ student.name }}</h2>
+                    <p>Grupo: {{ student.group }}</p>
+                    <p>Nombre del acudiente: {{ student.attendant_name }}</p>
+                    <p>Teléfono del acudiente: {{ student.attendant_phone }}</p>
+                    <a href="{% url 'generate_report' session_id student.id %}" class="btn-ir-reporte">Reportar</a>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No hay estudiantes en este curso.</p>
+        {% endif %}
+    </div>
+
+    <!-- Scripts de Bootstrap -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+{% endblock content %}

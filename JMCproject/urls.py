@@ -20,17 +20,23 @@ from SMS import views as SMS
 
 urlpatterns = [ 
     path('admin/', admin.site.urls),
+    path('home/admin', SMS.admin_home, name='admin_home'),
 
-    path('', SMS.home, name='home'), 
-
-    path('course/create', SMS.create_course, name='create_course'),
-    path('course/show', SMS.show_course, name='show_course'),
-
-    path('student/create', SMS.create_student, name='create_student'),
+    path('', SMS.home, name='home'),
+    path('login/', SMS.login.as_view(), name='login'),
     
+
+    path('courses/create', SMS.create_course, name='create_course'),
+    path('courses/show/all', SMS.show_all_courses, name='show_all_courses'),
+    path('courses/show/mine', SMS.show_my_courses, name='show_my_courses'),
+
+    path('create_student/', SMS.create_student, name='create_student'),
     path('student/show/<int:course_id>', SMS.show_students, name='show_students'),
 
-    path('course/session/<id:session_id>/', SMS.show_session, name='show_session'),
-    path('course/session/create', SMS.create_session, name='create_session'),
-    path('course/session/<id:session_id>/<id:student_id>', SMS.generate_report, name='generate_report'),    
+    path('teacher/create', SMS.create_teacher, name='create_teacher'),
+    path('teacher/home', SMS.user_home, name='user_home'),
+
+    path('session/<int:session_id>/', SMS.show_session, name='show_session'),
+    path('session/create', SMS.create_session, name='create_session'),
+    path('session/<int:session_id>/<int:student_id>', SMS.generate_report, name='generate_report'),    
 ]
