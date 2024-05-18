@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from SMS import views as SMS
+from django.contrib.auth.views import LogoutView
 
 urlpatterns = [ 
     path('admin/', admin.site.urls),
@@ -24,6 +25,7 @@ urlpatterns = [
 
     path('', SMS.home, name='home'),
     path('login/', SMS.login.as_view(), name='login'),
+    path('logout/', SMS.custom_logout, name='logout'),
     
 
     path('courses/create', SMS.create_course, name='create_course'),

@@ -1,4 +1,3 @@
-<!-- base.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -9,47 +8,124 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Estilos personalizados -->
     <style>
-        /* Estilos personalizados aquí */
         body {
-            background-color: #f2f2f2; /* Color de fondo del body */
-            color: #333; /* Color del texto */
+            background-color: #f8f9fa;
+            color: #333;
             font-family: Arial, sans-serif;
         }
         .navbar-custom {
-            background-color: #333; /* Color de fondo de la navbar */
-            color: #fff; /* Color del texto de la navbar */
+            background-color: #f8f9fa; /* Color de fondo claro */
+            padding: 8px 15px; /* Reducción del padding para una navbar más delgada */
         }
-        .navbar-brand {
-            font-size: 1.25rem; /* Tamaño de la fuente del navbar-brand */
-        }
-        .navbar-toggler-icon {
-            border-color: #fff; /* Color del icono del botón de la navbar */
+        .navbar-brand, .nav-link {
+            color: #333; /* Color de texto oscuro para contraste */
         }
         .nav-link {
-            font-size: 0.9rem; /* Tamaño de la fuente de los enlaces de la navbar */
+            margin-right: 20px; /* Espacio entre los enlaces */
+        }
+        .nav-link:hover, .navbar-brand:hover {
+            color: #555; /* Color al pasar el mouse */
+        }
+        .btn-crear-curso, .btn-ver-cursos, .btn-crear-estudiante, .btn-crear-profesor, .btn-enviar-reporte, .btn-logout {
+            border: none; /* Sin bordes */
+            margin-left: 8px;
+            border-radius: 5px; /* Bordes redondeados */
+            padding: 6px 12px; /* Padding reducido */
+            transition: opacity 0.3s; /* Transición suave para el hover */
+        }
+        .btn-crear-curso, .btn-ver-cursos, .btn-enviar-reporte {
+            background-color: #f39c12; /* Naranja */
+            color: #fff;
+        }
+        .btn-crear-estudiante, .btn-crear-profesor {
+            background-color: #e74c3c; /* Rojo */
+            color: #fff;
+        }
+        .btn-logout {
+            background-color: #333; /* Gris oscuro */
+            color: #fff;
+        }
+        .btn:hover {
+            opacity: 0.8; /* Efecto de opacidad al pasar el mouse */
+        }
+        .container {
+            margin-top: 50px;
+            text-align: center;
+        }
+        .logo {
+            width: 200px;
+            margin-bottom: 20px;
+        }
+        .formulario, .curso, .estructura .columna {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+        .btn-guardar {
+            background-color: #f39c12;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .btn-guardar:hover {
+            opacity: 0.8;
+        }
+        .boton {
+            margin-top: 20px;
+        }
+        .boton a {
+            display: block;
+            margin-bottom: 10px;
+            padding: 15px 20px;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        .boton a:hover {
+            opacity: 0.8;
+        }
+        .estructura {
+            margin-top: 50px;
+        }
+        .estructura .columna h2 {
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-custom">
         <div class="container">
-            <a class="navbar-brand" href="#">JMC</a>
+            <a class="navbar-brand" href="#">La institución que te mereces</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{% url 'user_home' %}">Home <span class="sr-only">{}</span></a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'user_home' %}">Home</a>
                     </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{% url 'show_my_courses' %}">Ver mis cursos <span class="sr-only">{}</span></a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'show_my_courses' %}">Ver mis cursos</a>
                     </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{% url 'create_session' %}">Crear Sesion <span class="sr-only">{}</span></a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'create_session' %}">Crear Sesión</a>
                     </li>
-                
+                    <li class="nav-item">
+                        <a class="btn btn-logout" href="{% url 'logout' %}">Cerrar sesión</a>
+                    </li>
                 </ul>
             </div>
         </div>

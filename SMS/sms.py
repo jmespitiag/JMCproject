@@ -8,8 +8,8 @@ def send_sms(phone: str, msg: str):
 
     # Configure HTTP basic authorization: BasicAuth
     configuration = clicksend_client.Configuration()
-    configuration.username = 'jmespitiag@eafit.edu.co'
-    configuration.password = 'BD4D8DB8-8BA1-9DCE-F888-4B79F5306DDE'
+    configuration.username = 'david.blandon'
+    configuration.password = '543D1274-B4A8-6AEF-7958-39698DF5D909'
 
     # Create an instance of the API class
     api_instance = clicksend_client.SMSApi(clicksend_client.ApiClient(configuration))

@@ -4,77 +4,41 @@
     Enviar Reporte
 {% endblock %}
 
-
-
 {% block content %}
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enviar Reporte</title>
-    <!-- Estilos de Bootstrap -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Estilos personalizados -->
-    <style>
-        body {
-            background-color: #f8f9fa;
-            color: #333;
-            font-family: Arial, sans-serif;
-        }
-        .container {
-            margin-top: 50px;
-        }
-        .logo-container {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .logo {
-            width: 200px;
-        }
-        .formulario {
-            background-color: #fff;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-        .formulario h2 {
-            margin-top: 0;
-        }
-        .btn-enviar-reporte {
-            background-color: #f39c12;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        .btn-enviar-reporte:hover {
-            opacity: 0.8;
-        }
-    </style>
-</head>
-<body>
     <div class="container">
         <!-- Logo -->
-        <div class="logo-container">
+        <div class="logo-container text-center">
             <img src="https://www.juanmariacespedes.edu.co/images/logofull-2.png" alt="Logo de la empresa" class="logo">
         </div>
 
         <h1 class="text-center">Enviar Reporte</h1>
         <div class="formulario">
-            <h2>Reporte de {{student.name}}</h2>
+            <h2>Reporte de {{ student.name }}</h2>
             {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-            {% endfor %}
-        {% endif %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
             <form method="POST">
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="attended">Asistencia</label>
                     <select id="attended" name="attended" class="form-control" required>
-                        <option value="Yes">Sí</option>
+                        <option value="Si">Sí</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="virtual_course">¿Realizó el curso virtual?</label>
+                    <select id="virtual_course" name="virtual_course" class="form-control" required>
+                        <option value="Si">Sí</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="remedial_course">¿Aprobó el curso remedial?</label>
+                    <select id="remedial_course" name="remedial_course" class="form-control" required>
+                        <option value="Si">Sí</option>
                         <option value="No">No</option>
                     </select>
                 </div>
@@ -82,17 +46,10 @@
                     <label for="observations">Observaciones:</label>
                     <textarea id="observations" name="observations" class="form-control" rows="5" required></textarea>
                 </div>
-                <div class="text-center"> <!-- Añadida clase text-center -->
+                <div class="text-center">
                     <button type="submit" class="btn btn-enviar-reporte">Enviar Reporte</button>
                 </div>
             </form>
         </div>
     </div>
-
-    <!-- Scripts de Bootstrap -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-
 {% endblock content %}

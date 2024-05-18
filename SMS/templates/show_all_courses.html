@@ -1,62 +1,10 @@
 {% extends 'base_admin.html' %}
 
 {% block title %}
-    Lista decursos
+    Lista de Cursos
 {% endblock %}
 
-
-
 {% block content %}
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>Lista de Cursos</title>
-    <!-- Estilos de Bootstrap -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Estilos personalizados -->
-    <style>
-        body {
-            background-color: #f8f9fa;
-            color: #333;
-            font-family: Arial, sans-serif;
-        }
-        .container {
-            margin-top: 50px;
-            text-align: center; /* Centrar contenido */
-        }
-        .logo {
-            width: 200px;
-            margin-bottom: 20px;
-            display: block; /* Convertir en bloque para alinear horizontalmente */
-            margin-left: auto; /* Centrar horizontalmente */
-            margin-right: auto; /* Centrar horizontalmente */
-        }
-        .curso {
-            background-color: #fff;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-        .curso h2 {
-            margin-top: 0;
-        }
-        .btn-enviar-reporte {
-            background-color: #e74c3c;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        .btn-enviar-reporte:hover {
-            opacity: 0.8;
-        }
-    </style>
-</head>
-<body>
     <div class="container">
         <!-- Logo -->
         <img src="https://www.juanmariacespedes.edu.co/images/logofull-2.png" alt="Logo de la empresa" class="logo">
@@ -64,7 +12,7 @@
         <h1>Lista de Cursos</h1>
         {% if courses %}
             {% for course in courses %}
-                <div class="curso">
+                <div class="formulario">
                     <h2>{{ course.subject }}</h2>
                     <p>Competencias: {{ course.competencies }}</p>
                     <p>Fecha inicial: {{ course.initial_date }}</p>
@@ -77,10 +25,4 @@
             <p>No hay cursos disponibles.</p>
         {% endif %}
     </div>
-
-    <!-- Scripts de Bootstrap -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
 {% endblock content %}

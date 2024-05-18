@@ -6,9 +6,11 @@ from django.contrib.auth.decorators import login_required
 from .forms import TeacherRegistrationForm
 from datetime import date
 from django.contrib.auth.views import LoginView
+from django.contrib.auth import logout
 from django.urls import reverse_lazy
 from .forms import TeacherLoginForm
 from .decorators import admin_required
+
 
 
 def admin_home(request):
@@ -137,15 +139,9 @@ def show_session(request, session_id):
         reported_students = []
         request.session['reported_students'] = reported_students
         
-    students_to_report = []
-    for student in students:
-        if student.id not in reported_students:
-            students_to_report.append(student)
+    students_to_report = [student for student in students if student.id not in reported_students]
 
-
-    print(students_to_report)
-
-    return render(request, 'show_session.html', {'students': students_to_report,'session_id': session.id})
+    return render(request, 'show_session.html', {'students': students_to_report, 'session_id': session.id})
 
 @login_required
 def create_session(request):
@@ -174,7 +170,7 @@ def create_session(request):
 
     else:
         
-        courses = Course.objects.all
+        courses = Course.objects.filter(teacher=request.user)
     return render(request, 'create_session.html', {'courses':courses})
 
 @login_required
@@ -187,7 +183,9 @@ def generate_report(request, session_id, student_id):
     if request.method == 'POST':
         attended = request.POST.get('attended')
         observations = request.POST.get('observations')
-        msg = f"JUAN MARÍA CÉSPEDES\n\n!Hola {student.attendant_name}!, le informamos que el/la estudiante {student.name} tuvo el día\nde hoy {session.date},una sesión de un curso remedial. Aquí hay alguna información importante:\n\nAsistió: {attended}\nMateria del curso: {course.subject}\n\nObservaciones del docente:{observations}\n\n ¡Gracias por su atención! Para más información recuerda asisitir a los miércoles en familia"     
+        virtual_course = request.POST.get('virtual_course')
+        remedial_course = request.POST.get('remedial_course')
+        msg = f"JUAN MARÍA CÉSPEDES\n\n!Hola {student.attendant_name}!, le informamos que el/la estudiante {student.name} tuvo el día\nde hoy {session.date},una sesión de un curso remedial. Aquí hay alguna información importante:\n\nAsistió: {attended}\n¿Realizó el curso virtual?: {virtual_course}\n¿Aprobó el curso remedial?: {remedial_course}\nMateria del curso: {course.subject}\n\nObservaciones del docente:{observations}\n\n ¡Gracias por su atención! Para más información recuerda asisitir a los miércoles en familia"     
         status = send_sms(student.attendant_phone, msg)
         messages.success(request, status)
 
@@ -206,4 +204,7 @@ class login(LoginView):
     template_name = 'login.html'
     authentication_form = TeacherLoginForm
 
+def custom_logout(request):
+    logout(request)
+    return redirect('login')
 

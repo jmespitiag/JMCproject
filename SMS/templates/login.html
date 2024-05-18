@@ -1,4 +1,3 @@
-<!-- SMS/templates/SMS/login.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -28,6 +27,8 @@
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             padding: 20px;
+            max-width: 400px; /* Establece un ancho máximo */
+            margin: auto; /* Centra horizontalmente */
         }
         .form-group {
             margin-bottom: 20px;
@@ -48,6 +49,16 @@
             background-color: #f39c12; /* Amarillo */
             opacity: 0.8;
         }
+        .volver-inicio {
+            display: block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #e74c3c; /* Rojo */
+            font-weight: bold;
+        }
+        .volver-inicio:hover {
+            color: #f39c12; /* Amarillo */
+        }
     </style>
 </head>
 <body>
@@ -63,7 +74,7 @@
                 {{ form.as_p }}
                 <button type="submit" class="btn btn-guardar">Iniciar Sesión</button>
             </form>
-            <a href="{% url 'home' %}">Volver al Inicio</a>
+            <a href="{% url 'home' %}" class="volver-inicio">Volver al Inicio</a>
         </div>
     </div>
 
