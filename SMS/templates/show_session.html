@@ -25,7 +25,7 @@
                     <p>Grupo: {{ student.group }}</p>
                     <p>Nombre del acudiente: {{ student.attendant_name }}</p>
                     <p>Teléfono del acudiente: {{ student.attendant_phone }}</p>
-                    <a href="{% url 'generate_report' session_id student.id %}" class=".btn btn-enviar-reporte">Reportar</a>
+                    <a href="{% url 'generate_report' session_id last student.id  %}" class=".btn btn-enviar-reporte">Reportar</a>
                 </div>
             {% endfor %}
         {% else %}

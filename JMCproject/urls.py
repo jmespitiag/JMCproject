@@ -38,7 +38,7 @@ urlpatterns = [
     path('teacher/create', SMS.create_teacher, name='create_teacher'),
     path('teacher/home', SMS.user_home, name='user_home'),
 
-    path('session/<int:session_id>/', SMS.show_session, name='show_session'),
+    path('session/<int:session_id>/<int:last>', SMS.show_session, name='show_session'),
     path('session/create', SMS.create_session, name='create_session'),
-    path('session/<int:session_id>/<int:student_id>', SMS.generate_report, name='generate_report'),    
+    path('session/<int:session_id>/<int:last>/<int:student_id>', SMS.generate_report, name='generate_report'),    
 ]

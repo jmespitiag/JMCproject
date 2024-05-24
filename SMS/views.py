@@ -10,6 +10,7 @@ from django.contrib.auth import logout
 from django.urls import reverse_lazy
 from .forms import TeacherLoginForm
 from .decorators import admin_required
+from django.db.models import Count
 
 
 
@@ -130,7 +131,7 @@ def create_teacher(request):
     return render(request, 'create_teacher.html', {'form': form})
 
 @login_required
-def show_session(request, session_id):
+def show_session(request, session_id, last):
     session = Session.objects.get(id=session_id)
     students = session.students.all()
     reported_students = request.session.get('reported_students', None)
@@ -141,14 +142,17 @@ def show_session(request, session_id):
         
     students_to_report = [student for student in students if student.id not in reported_students]
 
-    return render(request, 'show_session.html', {'students': students_to_report, 'session_id': session.id})
+    return render(request, 'show_session.html', {'students': students_to_report, 'session_id': session.id, 'last': last})
 
 @login_required
 def create_session(request):
+    last = 0
     if request.method == 'POST':
 
         course_id = request.POST.get('course')
         course = Course.objects.get(id=course_id)
+        if Session.objects.filter(course=course):
+            last = 1
         students = course.students.all()
         teacher = request.user
 
@@ -164,17 +168,26 @@ def create_session(request):
         updated_session= Session.objects.get(pk=new_session.id)
         print(updated_session.students.all())
 
-        return redirect('show_session',session_id=updated_session.id)
+        return redirect('show_session',session_id=updated_session.id, last=last )
     
 
 
     else:
         
         courses = Course.objects.filter(teacher=request.user)
-    return render(request, 'create_session.html', {'courses':courses})
+
+        # Usamos 'annotate()' para agregar un nuevo campo que cuenta el número de sesiones por curso
+        courses_with_session_count = courses.annotate(session_count=Count('session'))
+
+        # Filtramos esos cursos para obtener solo aquellos con menos de dos sesiones
+        courses_with_less_than_two_sessions = courses_with_session_count.filter(session_count__lt=2)
+        
+        
+        
+    return render(request, 'create_session.html', {'courses':courses_with_less_than_two_sessions})
 
 @login_required
-def generate_report(request, session_id, student_id):
+def generate_report(request, session_id, student_id, last):
     student = Student.objects.get(id=student_id)
     session = Session.objects.get(id=session_id)
     course = session.course
@@ -184,8 +197,13 @@ def generate_report(request, session_id, student_id):
         attended = request.POST.get('attended')
         observations = request.POST.get('observations')
         virtual_course = request.POST.get('virtual_course')
-        remedial_course = request.POST.get('remedial_course')
-        msg = f"JUAN MARÍA CÉSPEDES\n\n!Hola {student.attendant_name}!, le informamos que el/la estudiante {student.name} tuvo el día\nde hoy {session.date},una sesión de un curso remedial. Aquí hay alguna información importante:\n\nAsistió: {attended}\n¿Realizó el curso virtual?: {virtual_course}\n¿Aprobó el curso remedial?: {remedial_course}\nMateria del curso: {course.subject}\n\nObservaciones del docente:{observations}\n\n ¡Gracias por su atención! Para más información recuerda asisitir a los miércoles en familia"     
+        if last == 1: 
+            remedial_course = request.POST.get('remedial_course')
+            msg = f"JUAN MARÍA CÉSPEDES\n\n!Hola {student.attendant_name}!, le informamos que el/la estudiante {student.name} tuvo el día\nde hoy {session.date},una sesión de un curso remedial. Aquí hay alguna información importante:\n\nAsistió: {attended}\n¿Realizó el curso virtual?: {virtual_course}\n¿Aprobó el curso remedial?: {remedial_course}\nMateria del curso: {course.subject}\n\nObservaciones del docente:{observations}\n\n ¡Gracias por su atención! Para más información recuerda asistir a los miércoles en familia"
+        else:
+            msg = f"JUAN MARÍA CÉSPEDES\n\n!Hola {student.attendant_name}!, le informamos que el/la estudiante {student.name} tuvo el día\nde hoy {session.date},una sesión de un curso remedial. Aquí hay alguna información importante:\n\nAsistió: {attended}\n¿Realizó el curso virtual?: {virtual_course}\n\nObservaciones del docente:{observations}\n\n ¡Gracias por su atención! Para más información recuerda asistir a los miércoles en familia"    
+
+
         status = send_sms(student.attendant_phone, msg)
         messages.success(request, status)
 
@@ -197,7 +215,7 @@ def generate_report(request, session_id, student_id):
         return redirect('show_session', session_id=session_id)
 
     else:
-        return render(request, 'generate_report.html',{'student':student})
+        return render(request, 'generate_report.html',{'student':student, 'last':last})
 
 
 class login(LoginView):

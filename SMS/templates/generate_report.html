@@ -35,6 +35,7 @@
                         <option value="No">No</option>
                     </select>
                 </div>
+                {% if last == 1 %}
                 <div class="form-group">
                     <label for="remedial_course">¿Aprobó el curso remedial?</label>
                     <select id="remedial_course" name="remedial_course" class="form-control" required>
@@ -42,6 +43,7 @@
                         <option value="No">No</option>
                     </select>
                 </div>
+                {% endif %}            
                 <div class="form-group">
                     <label for="observations">Observaciones:</label>
                     <textarea id="observations" name="observations" class="form-control" rows="5" required></textarea>
